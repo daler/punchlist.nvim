@@ -28,6 +28,32 @@ Inspired by [plannotator](https://github.com/backnotprop/plannotator) and
 nvim-native and not tied to any agentic AI, though you can certainly use it
 with agentic AI.
 
+## Screenshots
+
+Adding an annotation for discussion:
+
+
+<img src="images/add-discuss.png" width=330>
+
+After editing, it shows up as virtual text:
+
+<img src="images/added-discuss.png" width=600>
+
+
+Can use multi-line entry for longer annotations:
+
+<img src="images/multiline-fix.png" width=400>
+
+List of annotations to navigate among:
+
+<img src="images/list.png" width=600>
+
+Pre-created prompt for targeted AI agent review, copy to clipboard with `y`:
+
+<img src="images/prompt.png" width=500>
+
+
+
 ## Some alternatives
 
 ...and how this plugin is different:

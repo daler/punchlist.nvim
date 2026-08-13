@@ -123,7 +123,7 @@ M.defaults = {
   -- "body": a preview pane showing the full annotation body. Best for when you
   --         want to read what you wrote on each item; Enter will move the buffer
   --         there.
-  list_preview = "body",
+  list_preview = "file",
 }
 
 M.options = vim.deepcopy(M.defaults)
