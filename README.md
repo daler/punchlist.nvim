@@ -68,10 +68,11 @@ Pre-created prompt for targeted AI agent review, copy to clipboard with `y`:
 - GitHub/GitLab web interface: push your code to GitHub/GitLab, create a pull
   request, use GitHub commenting features to discuss in the PR. This is a very
   awkward workflow, which this plugin avoids entirely.
-- [revdiff](https://github.com/umputun/revdiff) is a command-line tool with
-  similar features, but requires working outside of nvim, and doesn't support
-  simultaneous editing. This plugin lets you work with and edit your code *while*
-  making comments.
+- [revdiff](https://github.com/umputun/revdiff) or
+  [tuicr](https://github.com/agavra/tuicr), command-line tools with similar
+  features. These require working outside of nvim, and don't support
+  simultaneous editing. This plugin lets you work with and edit your code
+  *while* making comments.
 - Agent plugins like [plannotator](https://github.com/backnotprop/plannotator)
   and [pi-slopchop](https://github.com/robzolkos/pi-slopchop) have similar
   functionality, but they are very AI-agent centric and don't really support
