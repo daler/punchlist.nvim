@@ -8,12 +8,13 @@ This is useful for providing feedback to others, especially on a shared system
 (like an HPC cluster) or for asking questions and giving feedback to an AI
 agent while reviewing the code it creates.
 
-The idea is you make annotations that are tied to lines or ranges of lines
-(again, like Microsoft Word). Glyphs in the gutter show where they are, and
-virtual text (like the text shown by LSP tools in nvim) display the text. As you
-edit, the annotations move with the text thankjs to nvim's extmark system. If you
-edit a bit too much and the extmarks get confused, you can re-anchor or
-cut-and-paste annotations.
+The idea is you make annotations that are tied to lines or ranges of lines,
+like how comments work in Microsoft Word. Glyphs in the gutter show where they
+are, and virtual text (like the text shown by LSP tools in nvim) display the
+text. As you edit, the annotations move with the text thankjs to nvim's extmark
+system. If you edit a bit too much and the extmarks get confused, you can
+re-anchor or cut-and-paste annotations (I wish you could do this with Word
+docs).
 
 The annotations for all files in a repo or working directory are stored in
 `.punchlist/annotations.json`, so you can send that file along with the code
@@ -21,9 +22,11 @@ you annotated to someone else with this plugin, and they can see (and edit) the
 annotations.
 
 There are commands for clearing them all, searching among them across files,
-and composing a prompt you can edit and paste into an agent harness.
+and composing a prompt you can edit and paste into an agent harness -- see
+below.
 
-Inspired by [plannotator](https://github.com/backnotprop/plannotator) and
+Originally inspired by
+[plannotator](https://github.com/backnotprop/plannotator) and
 [pi-slopchop](https://github.com/robzolkos/pi-slopchop), but this is
 nvim-native and not tied to any agentic AI, though you can certainly use it
 with agentic AI.
@@ -58,27 +61,22 @@ Pre-created prompt for targeted AI agent review, copy to clipboard with `y`:
 
 ...and how this plugin is different:
 
-- VSCode plugins like [Out-of-Code
+- VSCode has plugins like [Out-of-Code
   Insights](https://marketplace.visualstudio.com/items?itemName=JacquesGariepy.out-of-code-insights)
-  offer similar functionality, and can even have threaded conversations. Does not
-  work well in a terminal-native enviroment though; this plugin does so with
-  nvim.
-- Pull requests: push your code to GitHub, create a pull request, use GitHub
-  commenting features to discuss in the PR (also works with GitLab merge
-  requests). Very awkward; this plugin does not need anything besides nvim.
-- A command-line tool like [revdiff](https://github.com/umputun/revdiff). This
-  can be very useful and has similar features, but requires working outside of
-  nvim, and doesn't support simultaneous editing. This plugin lets you work
-  with and edit your code while making comments.
-- Copy your code to a new file, make comments in the code, maybe with some sort
-  of marker like `# REVIEW` so you can remove them later. Do a diff to identify
-  the comments. Awkward.
+  offer similar functionality, and can even have threaded conversations. However this does not
+  work well in a terminal-native enviroment like this plugin does.
+- GitHub/GitLab web interface: push your code to GitHub/GitLab, create a pull
+  request, use GitHub commenting features to discuss in the PR. This is a very
+  awkward workflow, which this plugin avoids entirely.
+- [revdiff](https://github.com/umputun/revdiff) is a command-line tool with
+  similar features, but requires working outside of nvim, and doesn't support
+  simultaneous editing. This plugin lets you work with and edit your code *while*
+  making comments.
 - Agent plugins like [plannotator](https://github.com/backnotprop/plannotator)
   and [pi-slopchop](https://github.com/robzolkos/pi-slopchop) have similar
   functionality, but they are very AI-agent centric and don't really support
   simultaneous editing. This plugin does have a convenient way of providing
-  a prompt to an agent -- inspired by pi-slopchop --  but that's just a bonus.
-  It's nvim first, ai second.
+  a prompt to an agent but that's just a bonus. This plugin is nvim first, ai second.
 - nvim plugins like
   [annotate.nvim](https://github.com/hugooliveirad/annotate.nvim) and
   [murmur](https://github.com/piqusy/murmur) come close, but lack the ability
