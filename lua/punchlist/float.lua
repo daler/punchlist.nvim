@@ -136,7 +136,7 @@ function M.open_multiline(opts)
     title_pos = "center",
     footer = " " .. (opts.footer or "<C-s> save  \u{b7}  q/<Esc> cancel") .. " ",
     footer_pos = "center",
-    wo = { wrap = true },
+    wo = { wrap = true, linebreak = true },
     keys = {
       punchlist_submit = { "<C-s>", submit, mode = { "n", "i" } },
       q = "close",
