@@ -81,7 +81,11 @@ function M.highlight_pending_range(bufnr, start_line, end_line)
   vim.hl.range(bufnr, pending_ns, "PunchlistPendingRange", { start_line - 1, 0 }, { end_line - 1, 0 }, {
     regtype = "V",
     inclusive = true,
-    priority = 100,
+
+    -- if this is lower (like 100), that conflicts with default treesitter,
+    -- making the highlighting look patchy. This at least needs to be higher
+    -- priority than anything else that sets the background color.
+    priority = 1000,
   })
 end
 
