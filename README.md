@@ -43,7 +43,7 @@ After editing, it shows up as virtual text:
 <img src="images/added-discuss.png" width=600>
 
 
-Can use multi-line entry for longer annotations:
+Can use multi-line entry for longer annotations, and annotations can be attached to multiple lines:
 
 <img src="images/multiline-fix.png" width=400>
 
