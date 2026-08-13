@@ -28,7 +28,7 @@ below.
 Originally inspired by
 [plannotator](https://github.com/backnotprop/plannotator) and
 [pi-slopchop](https://github.com/robzolkos/pi-slopchop), but this is
-nvim-native and not tied to any agentic AI, though you can certainly use it
+nvim-native and not tied to any agentic AI...though you can certainly use it
 with agentic AI.
 
 ## Screenshots
