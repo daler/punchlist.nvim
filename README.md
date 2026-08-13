@@ -237,8 +237,6 @@ a FIX comment on the range, `<localleader>p]` / `<localleader>p[` to hop
 between commented lines afterward, and `<localleader>ps` once you're done to
 compile everything into a prompt.
 
-| Keymap            | Mode | Action               |
-|-------------------|------|----------------------|-----------------------------------------------------|
 | Keymap            | Mode | Command              | Action                                              |
 |-------------------|------|----------------------|-----------------------------------------------------|
 | `<localleader>pf` | n, v | `:PunchlistFix`      | Add/edit a FIX comment on the line or selection     |
