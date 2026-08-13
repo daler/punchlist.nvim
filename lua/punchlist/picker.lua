@@ -19,13 +19,18 @@ local function build_items(repo_root, opts)
 
   for _, rel_path in ipairs(store.all_files(repo_root)) do
     if not (opts.buf and rel_path ~= opts.rel_path) then
+      local abs_path = vim.fs.joinpath(repo_root, rel_path)
+      -- Give the picker the existing buffer so that it keeps all the extmarks
+      -- and glyphs and everything else from the actual buffer.
+      local existing_buf = util.buf_for_path(abs_path)
       for _, annotation in ipairs(store.get_file_annotations(repo_root, rel_path)) do
         local loc = util.location(rel_path, annotation)
         local state = anchor.state(annotation, lines_for(rel_path))
         local tag = state ~= "ok" and (state:upper() .. " ") or ""
         local item = {
           text = string.format("%s%s %s %s", tag, annotation.intent:upper(), loc, util.first_line(annotation.body)),
-          file = vim.fs.joinpath(repo_root, rel_path),
+          file = abs_path,
+          buf = existing_buf,
           pos = { annotation.start_line, 0 },
           rel_path = rel_path,
           annotation = annotation,
