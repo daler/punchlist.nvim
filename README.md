@@ -36,24 +36,24 @@ with agentic AI.
 Adding an annotation for discussion:
 
 
-<img src="images/add-discuss.png" width=330>
+<img src="images/add-discuss.png" width=660>
 
 After editing, it shows up as virtual text:
 
-<img src="images/added-discuss.png" width=600>
+<img src="images/added-discuss.png" width=1200>
 
 
 Can use multi-line entry for longer annotations, and annotations can be attached to multiple lines:
 
-<img src="images/multiline-fix.png" width=400>
+<img src="images/multiline-fix.png" width=800>
 
 List of annotations to navigate among:
 
-<img src="images/list.png" width=600>
+<img src="images/list.png" width=1200>
 
 Pre-created prompt for targeted AI agent review, copy to clipboard with `y`:
 
-<img src="images/prompt.png" width=500>
+<img src="images/prompt.png" width=1000>
 
 
 ## Install
