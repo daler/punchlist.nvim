@@ -8,10 +8,10 @@ This is useful for providing feedback to others, especially on a shared system
 (like an HPC cluster) or for asking questions and giving feedback to an AI
 agent while reviewing the code it creates.
 
-The idea is you make annotations that are tied to lines or ranges of lines,
-like how comments work in Microsoft Word. Glyphs in the gutter show where they
+The idea is you make annotations that are tied to lines or ranges of lines, but
+that are not part of the text itself. Glyphs in the gutter show where they
 are, and virtual text (like the text shown by LSP tools in nvim) display the
-text. As you edit, the annotations move with the text thankjs to nvim's extmark
+text. As you edit, the annotations move with the text thanks to nvim's extmark
 system. If you edit a bit too much and the extmarks get confused, you can
 re-anchor or cut-and-paste annotations (I wish you could do this with Word
 docs).
