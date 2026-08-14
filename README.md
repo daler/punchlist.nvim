@@ -56,35 +56,6 @@ Pre-created prompt for targeted AI agent review, copy to clipboard with `y`:
 <img src="images/prompt.png" width=500>
 
 
-
-## Some alternatives
-
-...and how this plugin is different:
-
-- VSCode has plugins like [Out-of-Code
-  Insights](https://marketplace.visualstudio.com/items?itemName=JacquesGariepy.out-of-code-insights)
-  offer similar functionality, and can even have threaded conversations. However this does not
-  work well in a terminal-native enviroment like this plugin does.
-- GitHub/GitLab web interface: push your code to GitHub/GitLab, create a pull
-  request, use GitHub commenting features to discuss in the PR. This is a very
-  awkward workflow, which this plugin avoids entirely.
-- [revdiff](https://github.com/umputun/revdiff) or
-  [tuicr](https://github.com/agavra/tuicr), command-line tools with similar
-  features. These require working outside of nvim, and don't support
-  simultaneous editing. This plugin lets you work with and edit your code
-  *while* making comments.
-- Agent plugins like [plannotator](https://github.com/backnotprop/plannotator)
-  and [pi-slopchop](https://github.com/robzolkos/pi-slopchop) have similar
-  functionality, but they are very AI-agent centric and don't really support
-  simultaneous editing. This plugin does have a convenient way of providing
-  a prompt to an agent but that's just a bonus. This plugin is nvim first, ai second.
-- nvim plugins like
-  [annotate.nvim](https://github.com/hugooliveirad/annotate.nvim) and
-  [murmur](https://github.com/piqusy/murmur) come close, but lack the ability
-  to put an annotation in the right place after it has drifted due to edits.
-- [Delta](https://zed.dev/blog/introducing-delta) takes all of this to the next
-  level, but at the time of this writing it appears it will be a separate app
-
 ## Install
 
 Requires Neovim 0.11+.
@@ -376,6 +347,33 @@ loaded with the modules this plugin uses, that the data directory is writable,
 how many comments are stored for the current repo, and whether the data
 directory is gitignored.
 
+## Some alternatives
+
+...and how this plugin is different:
+
+- VSCode has plugins like [Out-of-Code
+  Insights](https://marketplace.visualstudio.com/items?itemName=JacquesGariepy.out-of-code-insights)
+  offer similar functionality, and can even have threaded conversations. However this does not
+  work well in a terminal-native enviroment like this plugin does.
+- GitHub/GitLab web interface: push your code to GitHub/GitLab, create a pull
+  request, use GitHub commenting features to discuss in the PR. This is a very
+  awkward workflow, which this plugin avoids entirely.
+- [revdiff](https://github.com/umputun/revdiff) or
+  [tuicr](https://github.com/agavra/tuicr), command-line tools with similar
+  features. These require working outside of nvim, and don't support
+  simultaneous editing. This plugin lets you work with and edit your code
+  *while* making comments.
+- Agent plugins like [plannotator](https://github.com/backnotprop/plannotator)
+  and [pi-slopchop](https://github.com/robzolkos/pi-slopchop) have similar
+  functionality, but they are very AI-agent centric and don't really support
+  simultaneous editing. This plugin does have a convenient way of providing
+  a prompt to an agent but that's just a bonus. This plugin is nvim first, ai second.
+- nvim plugins like
+  [annotate.nvim](https://github.com/hugooliveirad/annotate.nvim) and
+  [murmur](https://github.com/piqusy/murmur) come close, but lack the ability
+  to put an annotation in the right place after it has drifted due to edits.
+- [Delta](https://zed.dev/blog/introducing-delta) takes all of this to the next
+  level, but at the time of this writing it appears it will be a separate app
 
 ## AI disclosure
 
