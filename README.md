@@ -1,20 +1,16 @@
 # punchlist.nvim
 
 When reviewing code, it's helpful to make annotations that live outside the
-code itself -- like comments in a Microsoft Word document. This is a plugin to
-do that in neovim.
+code itself -- like comments in a Microsoft Word document.
 
-This is useful for providing feedback to others, especially on a shared system
-(like an HPC cluster) or for asking questions and giving feedback to an AI
-agent while reviewing the code it creates.
+This is a plugin to do that in neovim. 
 
-The idea is you make annotations that are tied to lines or ranges of lines,
-like how comments work in Microsoft Word. Glyphs in the gutter show where they
+The idea is you make annotations that are tied to lines or ranges of lines, but
+that are not part of the text itself. Glyphs in the gutter show where they
 are, and virtual text (like the text shown by LSP tools in nvim) display the
-text. As you edit, the annotations move with the text thankjs to nvim's extmark
-system. If you edit a bit too much and the extmarks get confused, you can
-re-anchor or cut-and-paste annotations (I wish you could do this with Word
-docs).
+text. As you edit, the annotations move with the text thanks to nvim's extmark
+system. If you edit a bit too much and the extmarks system gets confused, you can
+re-anchor or cut-and-paste annotations.
 
 The annotations for all files in a repo or working directory are stored in
 `.punchlist/annotations.json`, so you can send that file along with the code
@@ -31,59 +27,37 @@ Originally inspired by
 nvim-native and not tied to any agentic AI...though you can certainly use it
 with agentic AI.
 
+**Use cases:**
+- Provide feedback on code to others without requiring pull requests
+- Leave TODO notes for yourself in a way that doesn't change the code itself
+- Streamline your review for AI-generated output. Without leaving the code, you
+  can edit files while at the same time leaving a trail of annotations.
+  Since the annotations include updated filename and line numbers, it can be a
+  token-efficient way to work with an LLM by pointing it directly to the
+  relevant lines.
+
 ## Screenshots
 
 Adding an annotation for discussion:
 
-
-<img src="images/add-discuss.png" width=330>
+<img src="images/add-discuss.png" width=660>
 
 After editing, it shows up as virtual text:
 
-<img src="images/added-discuss.png" width=600>
+<img src="images/added-discuss.png" width=1200>
 
+You can optionally use multi-line entry for longer annotations, and annotations can be attached to multiple lines:
 
-Can use multi-line entry for longer annotations, and annotations can be attached to multiple lines:
-
-<img src="images/multiline-fix.png" width=400>
+<img src="images/multiline-fix.png" width=800>
 
 List of annotations to navigate among:
 
-<img src="images/list.png" width=600>
+<img src="images/list.png" width=1200>
 
 Pre-created prompt for targeted AI agent review, copy to clipboard with `y`:
 
-<img src="images/prompt.png" width=500>
+<img src="images/prompt.png" width=1000>
 
-
-
-## Some alternatives
-
-...and how this plugin is different:
-
-- VSCode has plugins like [Out-of-Code
-  Insights](https://marketplace.visualstudio.com/items?itemName=JacquesGariepy.out-of-code-insights)
-  offer similar functionality, and can even have threaded conversations. However this does not
-  work well in a terminal-native enviroment like this plugin does.
-- GitHub/GitLab web interface: push your code to GitHub/GitLab, create a pull
-  request, use GitHub commenting features to discuss in the PR. This is a very
-  awkward workflow, which this plugin avoids entirely.
-- [revdiff](https://github.com/umputun/revdiff) or
-  [tuicr](https://github.com/agavra/tuicr), command-line tools with similar
-  features. These require working outside of nvim, and don't support
-  simultaneous editing. This plugin lets you work with and edit your code
-  *while* making comments.
-- Agent plugins like [plannotator](https://github.com/backnotprop/plannotator)
-  and [pi-slopchop](https://github.com/robzolkos/pi-slopchop) have similar
-  functionality, but they are very AI-agent centric and don't really support
-  simultaneous editing. This plugin does have a convenient way of providing
-  a prompt to an agent but that's just a bonus. This plugin is nvim first, ai second.
-- nvim plugins like
-  [annotate.nvim](https://github.com/hugooliveirad/annotate.nvim) and
-  [murmur](https://github.com/piqusy/murmur) come close, but lack the ability
-  to put an annotation in the right place after it has drifted due to edits.
-- [Delta](https://zed.dev/blog/introducing-delta) takes all of this to the next
-  level, but at the time of this writing it appears it will be a separate app
 
 ## Install
 
@@ -108,23 +82,30 @@ this plugin is loaded.
 
 ## How it works
 
-Comments are stored per git repo (falling back to cwd if you're not in a repo)
-in a hidden `.punchlist/annotations.json` file at the repo root (i.e. where the
-`.git` directory is). Add `.punchlist/` to your `.gitignore` if you don't want
-it showing up in `git status`:
+Annotations are stored per git repo (falling back to cwd if you're not in a repo)
+in a hidden `.punchlist/annotations.json` file. Add `.punchlist/` to your
+`.gitignore` if you don't want it showing up in `git status`:
 
 ```
 echo '.punchlist/' >> .gitignore
 ```
 
-`comments.json` is written pretty-printed with sorted keys, so it's reasonable
-to hand-edit or diff if you need to.
+`annotations.json` is read from and written to over the course of adding annotations,
+and allows them to persist after you quit nvim. It's also re-read whenever it changes
+underneath the session (like another Neovim instance, a  `git checkout`, or an agent
+rewriting it).
 
-It's also re-read whenever it changes underneath the session (another Neovim
-instance, a `git checkout`, or an agent rewriting it).
+The combination of nvim extmarks, hashing the anchor points in this file, and the
+ability to cut-and-paste annotations is what makes it possible to make annotations
+while simultaneously editing.
 
+## Usage
 
-## Add an annotation
+By default, all the commands start with `<localleader>p`. So that's `\p` by default.
+
+### Add an annotation
+
+Use `<localleader>pf` or `<localleader>pd`.
 
 There are two kinds of annotations:
 
@@ -141,16 +122,20 @@ Files with comments show glyphs in the sign column (`▶`/`▲` for fix/discuss
 line comments, `│` marking the rest of a multiline range) plus a preview
 of the comment text at end of line (see config to change this).
 
-## Edit an annotation
+### Edit an annotation
 
-With the same line or selection, use the same command as when you added it to
-edit the annotation.
+Use `<localleader>pf` or `<localleader>pd`.
 
-## View an annotation
+With the same line or selection as an existing annotation use the same command as
+when you added it to now edit the annotation.
+
+### View an annotation
 
 Use `:PunchlistPeek` or `<localleader>pp` to "peek" at an existing annotation. 
 
-## Re-anchoring a stale or orphaned annotation
+### Re-anchoring a stale or orphaned annotation
+
+Use `<localleader>pr` (rehome), `<localleader>px` (cut), `<localleader>pv` (paste).
 
 This plugin uses nvim's
 [extmarks](https://neovim.io/doc/user/api/#_extended-marks) system. Extmarks
@@ -161,7 +146,7 @@ the file was edited externally.
 
 If you add a FIX or DISCUSS annotation, and then start editing, the extmarks
 system lets us keep track of where the annotation should move. But if there are
-too man changes and the extmarks can't work out where the annotation should be,
+too many changes and the extmarks can't work out where the annotation should be,
 it will be marked `stale`. Or if the corresponding lines are deleted, it will
 be marked `orphaned`. Note that even adding a single character to a line with
 an existing annotation will mark it stale. That's because a single character
@@ -173,7 +158,8 @@ You can "re-anchor" a `stale` or `orphaned` annotation with
 says, "the annotation stands, but it should now apply here". By the way if you
 only edit a stale annotation (and don't reanchor it), it will stay stale.
 That's because it's interpreted as "this edited annotation applies the line as
-it originally was". You'll need to reanchor stale/orphaned annotations.
+it originally was". You'll still need to reanchor edited stale/orphaned
+annotations.
 
 If you make a selection within a stale annotation, you can re-anchor just to
 that location.
@@ -186,7 +172,7 @@ paste an annotation in any other file that you open, it doesn't have to be in
 the same one.
 
 
-## Overall operations
+### Overall operations
 
 Use `:PunchlistList` (`<localleader>pV`) to get a picker where you can search
 for and jump to annotations.
@@ -200,13 +186,13 @@ Within this window you can use the following actions:
 | `<C-x>` | Delete the selection (or the row under the cursor), in place |
 | `<A-b>` | Toggle scoping the list to the current file                  |
 
-Two preview styles, via the `list_preview` config option:
+There are two preview styles, configured with the `list_preview` config option:
 
-- `"body"` (default) -- a preview pane with the full comment body. Best for
+- `"body"` (default),  a preview pane with the full comment body. Best for
   "what did I actually write".
-- `"file"` -- ivy layout with `preview = "main"`: the real editor window
+- `"file"`, ivy layout with `preview = "main"`. The real editor window
   scrolls to follow the selection. Best for walking through everything you
-  flagged.
+  annotated.
 
 Use `:PunchlistClear` (`<localleader>pc`) to clear all annotations (you'll be
 asked for confirmation).
@@ -217,8 +203,8 @@ further in this window. See the shortcuts at the bottom of that window -- `y`
 to yank to clipboard; `c` to clear annotations, `q` to quit. For stale/orphaned
 comments that you haven't fixed yet, the information on where they came from is
 still captured and added to the prompt. So an LLM might still be able to figure
-it out, but you'll get better results if you fix them with reanchoring or cut
-& paste.
+out what you were talking about in the annotation, but you'll get better results
+if you fix them with reanchoring or cut & paste.
 
 Use `:PunchlistCopyLocation` (`<localleader>py`) to copy just the location of
 the current line or visual selection -- `path/to/file.lua:42` or
@@ -227,7 +213,7 @@ clipboard (and the unnamed register). In this case, there's no distinction
 between FIX/DISCUSS, it's just an easy way of grabbing the exact location.
 
 Use `:PunchlistUndo` (`<localleader>pu`) to restore the most recent delete. You
-can do this for up to the last 20 deleted anntations. Operations that destroy
+can do this for up to the last 20 deleted annoations. Operations that destroy
 several comments at once, like a multi-select delete in the picker or a range
 annotation that overlaps multiple existing annotations, are restored as
 a group. Note that cut-and-paste is not currently undoable.
@@ -244,38 +230,38 @@ a FIX comment on the range, `<localleader>p]` / `<localleader>p[` to hop
 between commented lines afterward, and `<localleader>ps` once you're done to
 compile everything into a prompt.
 
-| Keymap            | Mode | Command              | Action                                              |
-|-------------------|------|----------------------|-----------------------------------------------------|
-| `<localleader>pf` | n, v | `:PunchlistFix`      | Add/edit a FIX comment on the line or selection     |
-| `<localleader>pd` | n, v | `:PunchlistDiscuss`  | Add/edit a DISCUSS comment on the line or selection |
-| `<localleader>pp` | n    | `:PunchlistPeek`     | Peek at the full comment body on this line          |
-| `<localleader>pX` | n    | `:PunchlistDelete`   | Delete the comment on the current line              |
-| `<localleader>pu` | n    | `:PunchlistUndo`     | Restore the most recently deleted comment(s)        |
-| `<localleader>p]` | n    | `:PunchlistNext`     | Jump to the next commented line                     |
-| `<localleader>p[` | n    | `:PunchlistPrev`     | Jump to the previous commented line                 |
-| `<localleader>pV` | n    | `:PunchlistList`     | List every comment in the repo (snacks picker)      |
-| `<localleader>px` | n    | `:PunchlistCut`      | Cut this comment, to paste somewhere else           |
-| `<localleader>pv` | n, v | `:PunchlistPaste`    | Paste the cut comment here (v: onto the selection)  |
-| `<localleader>ps` | n    | `:PunchlistPrompt`   | Compile + save + yank the review prompt             |
-| `<localleader>py` | n, v | `:PunchlistCopyLocation` | Copy `path:line(s)` for the line/selection      |
-| `<localleader>pt` | n    | --                   | Toggle the inline comment text                      |
-| `<localleader>pr` | n, v | `:PunchlistReanchor` | Reanchor this comment (v: onto the selection)       |
-| `<localleader>pc` | n    | `:PunchlistClear`    | Clear all comments in this repo                     |
+| Keymap            | Mode | Command              | Action                                                 |
+|-------------------|------|----------------------|--------------------------------------------------------|
+| `<localleader>pf` | n, v | `:PunchlistFix`      | Add/edit a FIX annotation on the line or selection     |
+| `<localleader>pd` | n, v | `:PunchlistDiscuss`  | Add/edit a DISCUSS annotation on the line or selection |
+| `<localleader>pp` | n    | `:PunchlistPeek`     | Peek at the full annotation body on this line          |
+| `<localleader>pX` | n    | `:PunchlistDelete`   | Delete the annotation on the current line              |
+| `<localleader>pu` | n    | `:PunchlistUndo`     | Restore the most recently deleted annotation(s)        |
+| `<localleader>p]` | n    | `:PunchlistNext`     | Jump to the next annotated line.                       |
+| `<localleader>p[` | n    | `:PunchlistPrev`     | Jump to the previous annotated line                    |
+| `<localleader>pV` | n    | `:PunchlistList`     | List every annotation in the repo (snacks picker)      |
+| `<localleader>px` | n    | `:PunchlistCut`      | Cut this annotation, to paste somewhere else           |
+| `<localleader>pv` | n, v | `:PunchlistPaste`    | Paste the cut annotation here (v: onto the selection)  |
+| `<localleader>ps` | n    | `:PunchlistPrompt`   | Compile + save + yank the review prompt                |
+| `<localleader>py` | n, v | `:PunchlistCopyLocation` | Copy `path:line(s)` for the line/selection         |
+| `<localleader>pt` | n    | --                   | Toggle the inline annotation text                      |
+| `<localleader>pr` | n, v | `:PunchlistReanchor` | Reanchor this annotation (v: onto the selection)       |
+| `<localleader>pc` | n    | `:PunchlistClear`    | Clear all annotations in this repo                     |
 
 Inside the multiline comment editor:
 
-| Keymap        | Action                     |
-|---------------|----------------------------|
-| `<C-s>`       | Save the comment and close |
-| `q` / `<Esc>` | Discard and close          |
+| Keymap        | Action                        |
+|---------------|-------------------------------|
+| `<C-s>`       | Save the annotation and close |
+| `q` / `<Esc>` | Discard and close             |
 
 Inside the one-line prompt:
 
-| Keymap        | Action                           |
-|---------------|----------------------------------|
-| `<CR>`        | Save the comment and close       |
-| `<C-o>`       | Escalate to the multiline editor |
-| `<Esc>` / `q` | Discard and close                |
+| Keymap        | Action                              |
+|---------------|-------------------------------------|
+| `<CR>`        | Save the annotation and close       |
+| `<C-o>`       | Escalate to the multiline editor    |
+| `<Esc>` / `q` | Discard and close                   |
 
 Leave the body empty and save to delete an existing comment.
 
@@ -383,6 +369,33 @@ loaded with the modules this plugin uses, that the data directory is writable,
 how many comments are stored for the current repo, and whether the data
 directory is gitignored.
 
+## Some alternatives
+
+...and how this plugin is different:
+
+- VSCode has plugins like [Out-of-Code
+  Insights](https://marketplace.visualstudio.com/items?itemName=JacquesGariepy.out-of-code-insights)
+  offer similar functionality, and can even have threaded conversations. However this does not
+  work well in a terminal-native enviroment like this plugin does.
+- GitHub/GitLab web interface: push your code to GitHub/GitLab, create a pull
+  request, use GitHub commenting features to discuss in the PR. This is a very
+  awkward workflow, which this plugin avoids entirely.
+- [revdiff](https://github.com/umputun/revdiff) or
+  [tuicr](https://github.com/agavra/tuicr), command-line tools with similar
+  features. These require working outside of nvim, and don't support
+  simultaneous editing. This plugin lets you work with and edit your code
+  *while* making comments.
+- Agent plugins like [plannotator](https://github.com/backnotprop/plannotator)
+  and [pi-slopchop](https://github.com/robzolkos/pi-slopchop) have similar
+  functionality, but they are very AI-agent centric and don't really support
+  simultaneous editing. This plugin does have a convenient way of providing
+  a prompt to an agent but that's just a bonus. This plugin is nvim first, ai second.
+- nvim plugins like
+  [annotate.nvim](https://github.com/hugooliveirad/annotate.nvim) and
+  [murmur](https://github.com/piqusy/murmur) come close, but lack the ability
+  to put an annotation in the right place after it has drifted due to edits.
+- [Delta](https://zed.dev/blog/introducing-delta) takes all of this to the next
+  level, but at the time of this writing it appears it will be a separate app
 
 ## AI disclosure
 
