@@ -220,6 +220,12 @@ still captured and added to the prompt. So an LLM might still be able to figure
 it out, but you'll get better results if you fix them with reanchoring or cut
 & paste.
 
+Use `:PunchlistCopyLocation` (`<localleader>py`) to copy just the location of
+the current line or visual selection -- `path/to/file.lua:42` or
+`path/to/file.lua:42-48`, the same form the compiled prompt uses -- to the
+clipboard (and the unnamed register). In this case, there's no distinction
+between FIX/DISCUSS, it's just an easy way of grabbing the exact location.
+
 Use `:PunchlistUndo` (`<localleader>pu`) to restore the most recent delete. You
 can do this for up to the last 20 deleted anntations. Operations that destroy
 several comments at once, like a multi-select delete in the picker or a range
@@ -251,6 +257,7 @@ compile everything into a prompt.
 | `<localleader>px` | n    | `:PunchlistCut`      | Cut this comment, to paste somewhere else           |
 | `<localleader>pv` | n, v | `:PunchlistPaste`    | Paste the cut comment here (v: onto the selection)  |
 | `<localleader>ps` | n    | `:PunchlistPrompt`   | Compile + save + yank the review prompt             |
+| `<localleader>py` | n, v | `:PunchlistCopyLocation` | Copy `path:line(s)` for the line/selection      |
 | `<localleader>pt` | n    | --                   | Toggle the inline comment text                      |
 | `<localleader>pr` | n, v | `:PunchlistReanchor` | Reanchor this comment (v: onto the selection)       |
 | `<localleader>pc` | n    | `:PunchlistClear`    | Clear all comments in this repo                     |

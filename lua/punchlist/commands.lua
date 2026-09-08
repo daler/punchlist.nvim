@@ -117,6 +117,16 @@ local actions = {
     end,
   },
   {
+    key = "py",
+    cmd = "PunchlistCopyLocation",
+    modes = { "n", "x" },
+    range = true,
+    desc = "copy this line/selection's location (path:line) to the clipboard",
+    fn = function(p, s, e)
+      p.copy_location(s, e)
+    end,
+  },
+  {
     key = "pc",
     cmd = "PunchlistClear",
     desc = "clear all annotations in this repo",
