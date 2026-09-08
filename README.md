@@ -206,6 +206,12 @@ still captured and added to the prompt. So an LLM might still be able to figure
 out what you were talking about in the annotation, but you'll get better results
 if you fix them with reanchoring or cut & paste.
 
+Use `:PunchlistCopyLocation` (`<localleader>py`) to copy just the location of
+the current line or visual selection -- `path/to/file.lua:42` or
+`path/to/file.lua:42-48`, the same form the compiled prompt uses -- to the
+clipboard (and the unnamed register). In this case, there's no distinction
+between FIX/DISCUSS, it's just an easy way of grabbing the exact location.
+
 Use `:PunchlistUndo` (`<localleader>pu`) to restore the most recent delete. You
 can do this for up to the last 20 deleted annoations. Operations that destroy
 several comments at once, like a multi-select delete in the picker or a range
@@ -218,6 +224,11 @@ All defaults live under the `<localleader>p` prefix so they stay out of the
 way of other plugins (and of any other `<localleader>...` mappings you
 already have). Set `default_keymaps = false` in `setup()` to define your own
 around the functions in `lua/punchlist/init.lua` instead.
+
+For example: visually select a few lines and press `<localleader>pf` to leave
+a FIX comment on the range, `<localleader>p]` / `<localleader>p[` to hop
+between commented lines afterward, and `<localleader>ps` once you're done to
+compile everything into a prompt.
 
 | Keymap            | Mode | Command              | Action                                                 |
 |-------------------|------|----------------------|--------------------------------------------------------|
@@ -232,6 +243,7 @@ around the functions in `lua/punchlist/init.lua` instead.
 | `<localleader>px` | n    | `:PunchlistCut`      | Cut this annotation, to paste somewhere else           |
 | `<localleader>pv` | n, v | `:PunchlistPaste`    | Paste the cut annotation here (v: onto the selection)  |
 | `<localleader>ps` | n    | `:PunchlistPrompt`   | Compile + save + yank the review prompt                |
+| `<localleader>py` | n, v | `:PunchlistCopyLocation` | Copy `path:line(s)` for the line/selection         |
 | `<localleader>pt` | n    | --                   | Toggle the inline annotation text                      |
 | `<localleader>pr` | n, v | `:PunchlistReanchor` | Reanchor this annotation (v: onto the selection)       |
 | `<localleader>pc` | n    | `:PunchlistClear`    | Clear all annotations in this repo                     |

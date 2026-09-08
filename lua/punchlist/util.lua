@@ -27,12 +27,17 @@ function M.truncate(s, max)
   return s
 end
 
+--- `rel_path:line` or `rel_path:start-end` for a line range.
+function M.location_for(rel_path, start_line, end_line)
+  if start_line == end_line then
+    return string.format("%s:%d", rel_path, start_line)
+  end
+  return string.format("%s:%d-%d", rel_path, start_line, end_line)
+end
+
 --- `rel_path:line` or `rel_path:start-end` for a stored line/range annotation.
 function M.location(rel_path, annotation)
-  if annotation.start_line == annotation.end_line then
-    return string.format("%s:%d", rel_path, annotation.start_line)
-  end
-  return string.format("%s:%d-%d", rel_path, annotation.start_line, annotation.end_line)
+  return M.location_for(rel_path, annotation.start_line, annotation.end_line)
 end
 
 --- Iterator over every loaded buffer.

@@ -702,6 +702,26 @@ function M.compile_prompt()
   util.notify("prompt written to " .. path)
 end
 
+--- Copies just the location (`path:line` or `path:start-end`)  for the cursor
+--- line or the visual selection to the clipboard (and the unnamed register),
+--- bypassing the annotation process.
+---
+--- `explicit_start`/`explicit_end` let an Ex range bypass the mode-based
+--- detection.
+function M.copy_location(explicit_start, explicit_end)
+  local rel_path = util.relative_path()
+  if not rel_path then
+    util.notify("buffer has no file to copy a location from", vim.log.levels.WARN)
+    return
+  end
+
+  local start_line, end_line = target_range(explicit_start, explicit_end)
+  local text = util.location_for(rel_path, start_line, end_line)
+  vim.fn.setreg("+", text)
+  vim.fn.setreg("\"", text)
+  util.notify("copied " .. text, nil, { id = "punchlist_copy_location" })
+end
+
 --- Clears every annotation for this repo.
 function M.clear_all()
   local _, _, repo_root = synced_target()
